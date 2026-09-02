@@ -1,0 +1,22 @@
+name: LeetCode Sync
+
+on:
+  workflow_dispatch:      # İstediğiniz zaman elle (manuel) çalıştırmak için
+  schedule:
+    - cron: '0 8 * * *'   # Her gün Türkiye saatiyle öğlen 11:00 civarı otomatik çalışır
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Open Source Check
+        uses: actions/checkout@v4
+
+      - name: Sync LeetCode Solutions
+        uses: jasonwryan/leetcode-sync@v2.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
+          destination-folder: 'solutions'
